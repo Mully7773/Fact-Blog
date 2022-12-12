@@ -1,0 +1,24 @@
+:root {
+  // Button and tag colors:
+  --color-technology: #3b82f6;
+  --color-science: #16a34a;
+  --color-finance: #ef4444;
+  --color-society: #eab308;
+  --color-entertainment: #db2777;
+  --color-health: #14b8a6;
+  --color-history: #f97316;
+  --color-news: #8b5cf6;
+}
+
+*,
+*::before,
+*::after {
+  margin: 0;
+  padding: 0;
+  box-sizing: inherit;
+}
+
+html {
+  box-sizing: border-box;
+  font-size: 62.5%;
+}
