@@ -1,4 +1,15 @@
 :root {
+  // Base colors:
+  --color-app-background: #292524;
+  --color-app-fact-background: #44403c;
+  --color-vote-button-background: #78716c;
+  --color-vote-hover: #292524;
+
+  //   Text colors:
+  --color-primary-text: #fafaf9;
+  --color-link: #a8a29e;
+  --color-link-hover-active: #3b82f6;
+
   // Button and tag colors:
   --color-technology: #3b82f6;
   --color-science: #16a34a;
@@ -8,6 +19,10 @@
   --color-health: #14b8a6;
   --color-history: #f97316;
   --color-news: #8b5cf6;
+
+  //   Font
+  --font-primary: "Sono", sans-serif;
+  --font-secondary: "Coiny", sans-serif;
 }
 
 *,
@@ -21,4 +36,16 @@
 html {
   box-sizing: border-box;
   font-size: 62.5%;
+}
+
+body {
+  background-color: var(--color-app-background);
+  color: var(--color-primary-text);
+  font-family: var(--font-primary);
+  padding: 4.8rem 6.4rem;
+  font-weight: 400;
+}
+
+ul {
+  list-style: none;
 }
