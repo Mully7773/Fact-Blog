@@ -48,10 +48,6 @@ ul {
   list-style: none;
 }
 
-.hidden {
-  display: none;
-}
-
 .container {
   max-width: 150rem;
   margin: 0 auto;
