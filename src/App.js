@@ -78,7 +78,27 @@ const NewFactForm = () => {
 };
 
 const CategoryFilter = () => {
-  return <aside className="sidebar">CategoryFilter</aside>;
+  return (
+    <aside className="sidebar">
+      <ul>
+        <li className="sidebar__category">
+          <button className="btn btn-all-categories">All</button>
+        </li>
+        {CATEGORIES.map((category) => {
+          return (
+            <li key={category.name} className="sidebar__category">
+              <button
+                className="btn btn-category"
+                style={{ backgroundColor: category.color }}
+              >
+                {category.name}
+              </button>
+            </li>
+          );
+        })}
+      </ul>
+    </aside>
+  );
 };
 
 const FactList = () => {
