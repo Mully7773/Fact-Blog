@@ -1,3 +1,4 @@
+import { useState } from "react";
 import AppContainer from "./components/AppContainer";
 import "./css/style.css";
 
@@ -46,9 +47,27 @@ const initialFacts = [
   },
 ];
 
+function Counter() {
+  const [counter, setCounter] = useState(0);
+  const increment = () => {
+    setCounter((c) => c + 1);
+  };
+  return (
+    <div>
+      <span style={{ fontSize: "40px" }}>{counter}</span>
+      <button onClick={increment} className="btn btn-large">
+        +1
+      </button>
+    </div>
+  );
+}
+
 const App = () => {
   const appTitle = "Today I Learned";
-
+  const [toggleForm, setToggleForm] = useState(false);
+  const onToggleForm = () => {
+    setToggleForm((prevState) => !prevState);
+  };
   return (
     <>
       <AppContainer>
@@ -59,10 +78,12 @@ const App = () => {
             <h1 className="header__heading">{appTitle}</h1>
           </div>
 
-          <button className="btn btn-large shareBtn">Share a fact</button>
+          <button onClick={onToggleForm} className="btn btn-large shareBtn">
+            Share a fact
+          </button>
         </header>
 
-        <NewFactForm />
+        {toggleForm && <NewFactForm />}
 
         <main className="main">
           <CategoryFilter />
