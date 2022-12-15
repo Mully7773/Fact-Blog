@@ -1,4 +1,5 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
+import supabase from "./supabase";
 import AppContainer from "./components/AppContainer";
 import "./css/style.css";
 
@@ -65,7 +66,15 @@ function Counter() {
 const App = () => {
   const appTitle = "Today I Learned";
   const [toggleForm, setToggleForm] = useState(false);
-  const [facts, setFacts] = useState(initialFacts);
+  const [facts, setFacts] = useState([]);
+
+  useEffect(function () {
+    async function getFacts() {
+      const { data: facts, error } = await supabase.from("facts").select("*");
+      setFacts(facts);
+    }
+    getFacts();
+  }, []);
 
   const onToggleForm = () => {
     setToggleForm((prevState) => !prevState);
