@@ -166,6 +166,7 @@ const NewFactForm = (props) => {
     setCategory("");
 
     // Close the form
+    props.setToggleForm((prevForm) => (prevForm = false));
   };
 
   return (
