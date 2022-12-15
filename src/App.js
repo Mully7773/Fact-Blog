@@ -65,23 +65,20 @@ function Counter() {
 const App = () => {
   const appTitle = "Today I Learned";
   const [toggleForm, setToggleForm] = useState(false);
+
   const onToggleForm = () => {
     setToggleForm((prevState) => !prevState);
   };
+
   return (
     <>
       <AppContainer>
         {/* HEADER */}
-        <header className="header">
-          <div className="header__logo">
-            <img src="../img/logo.png" alt="Today I Learned Logo" />
-            <h1 className="header__heading">{appTitle}</h1>
-          </div>
-
-          <button onClick={onToggleForm} className="btn btn-large shareBtn">
-            Share a fact
-          </button>
-        </header>
+        <Header
+          appTitle={appTitle}
+          onToggleForm={onToggleForm}
+          toggleForm={toggleForm}
+        />
 
         {toggleForm && <NewFactForm />}
 
@@ -94,8 +91,87 @@ const App = () => {
   );
 };
 
+const Header = ({ appTitle, onToggleForm, toggleForm }) => {
+  return (
+    <header className="header">
+      <div className="header__logo">
+        <img src="../img/logo.png" alt="Today I Learned Logo" />
+        <h1 className="header__heading">{appTitle}</h1>
+      </div>
+      <button onClick={onToggleForm} className="btn btn-large shareBtn">
+        {toggleForm ? "Close" : "Share a fact"}
+      </button>
+    </header>
+  );
+};
+
 const NewFactForm = () => {
-  return <form className="fact-form">Fact form</form>;
+  const [text, setText] = useState("");
+  const [source, setSource] = useState("");
+  const [category, setCategory] = useState("");
+
+  const getFact = (e) => {
+    console.log(e.target.value);
+
+    setText(e.target.value);
+  };
+  const getSource = (e) => {
+    console.log(e.target.value);
+    setSource(e.target.value);
+  };
+  const getCategory = (e) => {
+    console.log(e.target.value);
+    setCategory(e.target.value);
+  };
+
+  const submitForm = (e) => {
+    e.preventDefault();
+    const submittedFact = {
+      fact: text,
+      source: source,
+      category: category,
+    };
+    console.log(submittedFact);
+    setText("");
+    setSource("");
+    setCategory("");
+  };
+
+  return (
+    <form onSubmit={submitForm} className="fact-form">
+      <input
+        maxLength={200}
+        onChange={getFact}
+        className="fact-form__input"
+        type="text"
+        value={text}
+        placeholder="Share a fact with the world..."
+      />
+      <span>{200 - text.length}</span>
+      <input
+        onChange={getSource}
+        className="fact-form__input"
+        type="text"
+        value={source}
+        placeholder="Trustworthy source..."
+      />
+      <select
+        value={category}
+        onChange={getCategory}
+        className="fact-form__select"
+      >
+        <option value="">Choose category:</option>
+        {CATEGORIES.map((category) => {
+          return (
+            <option key={category.name} value={category.name}>
+              {category.name.toUpperCase()}
+            </option>
+          );
+        })}
+      </select>
+      <button className="btn btn-large">Post</button>
+    </form>
+  );
 };
 
 const CategoryFilter = () => {
