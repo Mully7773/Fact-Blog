@@ -65,6 +65,7 @@ function Counter() {
 const App = () => {
   const appTitle = "Today I Learned";
   const [toggleForm, setToggleForm] = useState(false);
+  const [facts, setFacts] = useState(initialFacts);
 
   const onToggleForm = () => {
     setToggleForm((prevState) => !prevState);
@@ -80,11 +81,13 @@ const App = () => {
           toggleForm={toggleForm}
         />
 
-        {toggleForm && <NewFactForm />}
+        {toggleForm && (
+          <NewFactForm setFacts={setFacts} setToggleForm={setToggleForm} />
+        )}
 
         <main className="main">
           <CategoryFilter />
-          <FactList />
+          <FactList facts={facts} />
         </main>
       </AppContainer>
     </>
@@ -105,9 +108,20 @@ const Header = ({ appTitle, onToggleForm, toggleForm }) => {
   );
 };
 
-const NewFactForm = () => {
+// Valid URL helper function
+function isValidHttpUrl(string) {
+  let url;
+  try {
+    url = new URL(string);
+  } catch (_) {
+    return false;
+  }
+  return url.protocol === "http:" || url.protocol === "https:";
+}
+
+const NewFactForm = (props) => {
   const [text, setText] = useState("");
-  const [source, setSource] = useState("");
+  const [source, setSource] = useState("http://example.com");
   const [category, setCategory] = useState("");
 
   const getFact = (e) => {
@@ -126,15 +140,32 @@ const NewFactForm = () => {
 
   const submitForm = (e) => {
     e.preventDefault();
-    const submittedFact = {
-      fact: text,
-      source: source,
-      category: category,
-    };
-    console.log(submittedFact);
+
+    // Form validation
+    if (text && isValidHttpUrl(source) && category && text.length <= 200) {
+      // Create new fact object
+      const submittedFact = {
+        id: Math.round(Math.random() * 10000000),
+        text,
+        source,
+        category,
+        votesInteresting: 0,
+        votesMindblowing: 0,
+        votesFalse: 0,
+        createdIn: new Date().getFullYear(),
+      };
+      // Render fact to array
+      props.setFacts((prevFacts) => {
+        return [submittedFact, ...prevFacts];
+      });
+    }
+
+    // Reset input fields
     setText("");
     setSource("");
     setCategory("");
+
+    // Close the form
   };
 
   return (
@@ -198,17 +229,16 @@ const CategoryFilter = () => {
   );
 };
 
-const FactList = () => {
-  // Temporary variable
-  const facts = initialFacts;
+const FactList = (props) => {
+  console.log(props);
   return (
     <section className="fact-list">
       <ul>
-        {facts.map((fact) => {
+        {props.facts.map((fact) => {
           return <Fact key={fact.id} fact={fact} />;
         })}
       </ul>
-      <p>There are {facts.length} facts in the database. Add your own!</p>
+      <p>There are {props.facts.length} facts in the database. Add your own!</p>
     </section>
   );
 };
