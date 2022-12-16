@@ -81,8 +81,11 @@ const App = () => {
 
       console.log(error);
 
-      setFacts(facts);
-
+      if (!error) {
+        setFacts(facts);
+      } else {
+        alert("There was a problem getting the data");
+      }
       setIsLoading(false);
     }
     getFacts();
