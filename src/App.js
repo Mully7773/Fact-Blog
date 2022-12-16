@@ -174,25 +174,34 @@ const NewFactForm = (props) => {
     setCategory(e.target.value);
   };
 
-  const submitForm = (e) => {
+  const submitForm = async (e) => {
     e.preventDefault();
 
     // Form validation
     if (text && isValidHttpUrl(source) && category && text.length <= 200) {
       // Create new fact object
-      const submittedFact = {
-        id: Math.round(Math.random() * 10000000),
-        text,
-        source,
-        category,
-        votesInteresting: 0,
-        votesMindblowing: 0,
-        votesFalse: 0,
-        createdIn: new Date().getFullYear(),
-      };
+      // const submittedFact = {
+      //   id: Math.round(Math.random() * 10000000),
+      //   text,
+      //   source,
+      //   category,
+      //   votesInteresting: 0,
+      //   votesMindblowing: 0,
+      //   votesFalse: 0,
+      //   createdIn: new Date().getFullYear(),
+      // };
+
+      // Upload fact to Supabase and receive new fact object
+      const { data: submittedFact, error } = await supabase
+        .from("facts")
+        .insert([{ text, source, category }])
+        .select();
+
+      console.log(submittedFact);
+      // submittedFact is an array, so we need to get the first element of the array
       // Render fact to array
       props.setFacts((prevFacts) => {
-        return [submittedFact, ...prevFacts];
+        return [submittedFact[0], ...prevFacts];
       });
     }
 
