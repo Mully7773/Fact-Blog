@@ -158,6 +158,7 @@ const NewFactForm = (props) => {
   const [text, setText] = useState("");
   const [source, setSource] = useState("http://example.com");
   const [category, setCategory] = useState("");
+  const [isUploading, setIsUploading] = useState(false);
 
   const getFact = (e) => {
     console.log(e.target.value);
@@ -192,10 +193,13 @@ const NewFactForm = (props) => {
       // };
 
       // Upload fact to Supabase and receive new fact object
+      setIsUploading(true);
       const { data: submittedFact, error } = await supabase
         .from("facts")
         .insert([{ text, source, category }])
         .select();
+
+      setIsUploading(false);
 
       console.log(submittedFact);
       // submittedFact is an array, so we need to get the first element of the array
@@ -223,6 +227,7 @@ const NewFactForm = (props) => {
         type="text"
         value={text}
         placeholder="Share a fact with the world..."
+        disabled={isUploading}
       />
       <span>{200 - text.length}</span>
       <input
@@ -231,11 +236,13 @@ const NewFactForm = (props) => {
         type="text"
         value={source}
         placeholder="Trustworthy source..."
+        disabled={isUploading}
       />
       <select
         value={category}
         onChange={getCategory}
         className="fact-form__select"
+        disabled={isUploading}
       >
         <option value="">Choose category:</option>
         {CATEGORIES.map((category) => {
@@ -246,7 +253,9 @@ const NewFactForm = (props) => {
           );
         })}
       </select>
-      <button className="btn btn-large">Post</button>
+      <button className="btn btn-large" disabled={isUploading}>
+        Post
+      </button>
     </form>
   );
 };
