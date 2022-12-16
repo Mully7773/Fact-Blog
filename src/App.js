@@ -69,27 +69,35 @@ const App = () => {
   const [toggleForm, setToggleForm] = useState(false);
   const [facts, setFacts] = useState([]);
   const [isLoading, setIsLoading] = useState(false);
+  const [filter, setFilter] = useState("all");
 
-  useEffect(function () {
-    async function getFacts() {
-      setIsLoading(true);
-      const { data: facts, error } = await supabase
-        .from("facts")
-        .select("*")
-        .order("votesInteresting", { ascending: true })
-        .limit(1000);
+  useEffect(
+    function () {
+      async function getFacts() {
+        setIsLoading(true);
 
-      console.log(error);
+        let query = supabase.from("facts").select("*");
 
-      if (!error) {
-        setFacts(facts);
-      } else {
-        alert("There was a problem getting the data");
+        if (filter !== "all") {
+          query = query.eq("category", filter);
+        }
+
+        const { data: facts, error } = await query
+
+          .order("votesInteresting", { ascending: true })
+          .limit(1000);
+
+        if (!error) {
+          setFacts(facts);
+        } else {
+          alert("There was a problem getting the data");
+        }
+        setIsLoading(false);
       }
-      setIsLoading(false);
-    }
-    getFacts();
-  }, []);
+      getFacts();
+    },
+    [filter]
+  );
 
   const onToggleForm = () => {
     setToggleForm((prevState) => !prevState);
@@ -109,7 +117,7 @@ const App = () => {
         )}
 
         <main className="main">
-          <CategoryFilter />
+          <CategoryFilter setFilter={setFilter} />
           {isLoading ? <Loader /> : <FactList facts={facts} />}
         </main>
       </AppContainer>
@@ -118,7 +126,7 @@ const App = () => {
 };
 
 const Loader = () => {
-  return <p className="loading-message">Loading...</p>;
+  return <p className="message">Loading...</p>;
 };
 
 const Header = ({ appTitle, onToggleForm, toggleForm }) => {
@@ -234,17 +242,30 @@ const NewFactForm = (props) => {
   );
 };
 
-const CategoryFilter = () => {
+const CategoryFilter = ({ setFilter }) => {
+  const filterChangeHandler = (e) => {
+    const filterCategory = e.target.value;
+    setFilter(filterCategory);
+    console.log(filterCategory);
+  };
   return (
     <aside className="sidebar">
       <ul>
         <li className="sidebar__category">
-          <button className="btn btn-all-categories">All</button>
+          <button
+            value={"all"}
+            onClick={filterChangeHandler}
+            className="btn btn-all-categories"
+          >
+            All
+          </button>
         </li>
         {CATEGORIES.map((category) => {
           return (
             <li key={category.name} className="sidebar__category">
               <button
+                value={category.name}
+                onClick={filterChangeHandler}
                 className="btn btn-category"
                 style={{ backgroundColor: category.color }}
               >
@@ -259,6 +280,14 @@ const CategoryFilter = () => {
 };
 
 const FactList = (props) => {
+  if (props.facts.length === 0) {
+    return (
+      <p className="message">
+        There are currently no facts for this category. Try adding one!
+      </p>
+    );
+  }
+
   console.log(props);
   return (
     <section className="fact-list">
