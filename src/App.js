@@ -129,6 +129,10 @@ const Loader = () => {
   return <p className="message">Loading...</p>;
 };
 
+const Uploader = () => {
+  return <p className="message">Uploading...</p>;
+};
+
 const Header = ({ appTitle, onToggleForm, toggleForm }) => {
   return (
     <header className="header">
@@ -201,12 +205,13 @@ const NewFactForm = (props) => {
 
       setIsUploading(false);
 
-      console.log(submittedFact);
+      // console.log(submittedFact);
       // submittedFact is an array, so we need to get the first element of the array
       // Render fact to array
-      props.setFacts((prevFacts) => {
-        return [submittedFact[0], ...prevFacts];
-      });
+      if (!error)
+        props.setFacts((prevFacts) => {
+          return [submittedFact[0], ...prevFacts];
+        });
     }
 
     // Reset input fields
@@ -217,6 +222,14 @@ const NewFactForm = (props) => {
     // Close the form
     props.setToggleForm((prevForm) => (prevForm = false));
   };
+
+  if (isUploading) {
+    return (
+      <p style={{ textAlign: "right" }} className="message">
+        Uploading...
+      </p>
+    );
+  }
 
   return (
     <form onSubmit={submitForm} className="fact-form">
