@@ -95,6 +95,10 @@
         background-color: var(--color-vote-hover);
         color: inherit;
       }
+      &:disabled {
+        background-color: var(--color-vote-hover);
+        color: inherit;
+      }
     }
   }
 }
@@ -207,4 +211,11 @@
   );
   background-clip: text;
   color: transparent;
+}
+
+// Disputed Flag
+.disputed {
+  color: #ef4444;
+  font-weight: 600;
+  margin-right: 1rem;
 }

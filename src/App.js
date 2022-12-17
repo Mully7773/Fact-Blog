@@ -118,7 +118,11 @@ const App = () => {
 
         <main className="main">
           <CategoryFilter setFilter={setFilter} />
-          {isLoading ? <Loader /> : <FactList facts={facts} />}
+          {isLoading ? (
+            <Loader />
+          ) : (
+            <FactList facts={facts} setFacts={setFacts} />
+          )}
         </main>
       </AppContainer>
     </>
@@ -127,10 +131,6 @@ const App = () => {
 
 const Loader = () => {
   return <p className="message">Loading...</p>;
-};
-
-const Uploader = () => {
-  return <p className="message">Uploading...</p>;
 };
 
 const Header = ({ appTitle, onToggleForm, toggleForm }) => {
@@ -324,7 +324,7 @@ const FactList = (props) => {
     <section className="fact-list">
       <ul>
         {props.facts.map((fact) => {
-          return <Fact key={fact.id} fact={fact} />;
+          return <Fact setFacts={props.setFacts} key={fact.id} fact={fact} />;
         })}
       </ul>
       <p>There are {props.facts.length} facts in the database. Add your own!</p>
@@ -332,10 +332,32 @@ const FactList = (props) => {
   );
 };
 
-const Fact = ({ fact }) => {
+const Fact = ({ fact, setFacts }) => {
+  const [isUpdating, setIsUpdating] = useState(false);
+
+  const isDisputed =
+    fact.votesInteresting + fact.votesMindblowing < fact.votesFalse;
+
+  const handleVote = async (columnName) => {
+    setIsUpdating(true);
+    const { data: updatedFact, error } = await supabase
+      .from("facts")
+      .update({ [columnName]: fact[columnName] + 1 })
+      .eq("id", fact.id)
+      .select();
+
+    setIsUpdating(false);
+
+    console.log(updatedFact);
+    if (!error)
+      setFacts((facts) =>
+        facts.map((f) => (f.id === fact.id ? updatedFact[0] : f))
+      );
+  };
   return (
     <li className="fact-list__fact">
       <p>
+        {isDisputed ? <span className="disputed">[📛DISPUTED]</span> : null}
         {fact.text}
         <a className="source" href={fact.source} target="_blank">
           (Source)
@@ -353,9 +375,21 @@ const Fact = ({ fact }) => {
       </span>
 
       <div className="fact-list__vote-buttons">
-        <button>👍 {fact.votesInteresting}</button>
-        <button>🤯 {fact.votesMindblowing}</button>
-        <button>⛔️ {fact.votesFalse}</button>
+        <button
+          disabled={isUpdating}
+          onClick={() => handleVote("votesInteresting")}
+        >
+          👍 {fact.votesInteresting}
+        </button>
+        <button
+          disabled={isUpdating}
+          onClick={() => handleVote("votesMindblowing")}
+        >
+          🤯 {fact.votesMindblowing}
+        </button>
+        <button disabled={isUpdating} onClick={() => handleVote("votesFalse")}>
+          ⛔️ {fact.votesFalse}
+        </button>
       </div>
     </li>
   );
