@@ -44,17 +44,17 @@ const Fact = ({ fact, setFacts }) => {
         </a>
       </p>
 
-      <span
-        className="fact-list__tag"
-        style={{
-          backgroundColor: CATEGORIES.find((cat) => cat.name === fact.category)
-            .color,
-        }}
-      >
-        {fact.category}
-      </span>
-
       <div className="fact-list__vote-buttons">
+        <span
+          className="fact-list__tag"
+          style={{
+            backgroundColor: CATEGORIES.find(
+              (cat) => cat.name === fact.category
+            ).color,
+          }}
+        >
+          {fact.category}
+        </span>
         <button
           disabled={isUpdating}
           onClick={() => handleVote("votesInteresting")}

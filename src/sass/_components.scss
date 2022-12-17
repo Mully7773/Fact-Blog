@@ -73,6 +73,8 @@
     padding-left: 1rem;
     padding-right: 1rem;
     border-radius: 10rem;
+    display: block;
+    margin-right: 2rem;
   }
 
   &__vote-buttons {
@@ -80,6 +82,7 @@
     flex-shrink: 0;
     display: flex;
     gap: 0.8rem;
+    align-items: center;
 
     & button {
       border: none;
