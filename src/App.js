@@ -30,6 +30,7 @@ const App = () => {
   const [facts, setFacts] = useState([]);
   const [isLoading, setIsLoading] = useState(false);
   const [filter, setFilter] = useState("all");
+  // const [sort, setSort] = useState("");
 
   useEffect(
     function () {
