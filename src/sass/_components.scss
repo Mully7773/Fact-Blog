@@ -170,6 +170,10 @@
     color: inherit;
     font-family: inherit;
 
+    &-u {
+      flex-grow: 0 !important;
+    }
+
     &::placeholder {
       color: var(--color-link);
     }

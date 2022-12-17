@@ -18,8 +18,7 @@ const Sorter = (props) => {
   return (
     <form className="sort-form">
       <select
-        className="sort-form__select-sort"
-        style={{ height: "4rem", width: "8rem" }}
+        className="sort-form__select sort-form__select-u"
         onChange={sortData}
       >
         <option value="">Sort</option>
