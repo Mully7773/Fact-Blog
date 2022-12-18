@@ -30,7 +30,6 @@ const App = () => {
   const [facts, setFacts] = useState([]);
   const [isLoading, setIsLoading] = useState(false);
   const [filter, setFilter] = useState("all");
-  // const [sort, setSort] = useState("");
 
   useEffect(
     function () {
@@ -82,7 +81,7 @@ const App = () => {
           {isLoading ? (
             <Loader />
           ) : (
-            <FactList facts={facts} setFacts={setFacts} />
+            <FactList facts={facts} setFacts={setFacts} filter={filter} />
           )}
         </main>
       </AppContainer>
