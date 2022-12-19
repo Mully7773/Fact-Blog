@@ -8,6 +8,18 @@ Try posting a fun fact here: https://fact-blog-today-i-learned.netlify.app
 
 ## Screenshots
 
+![Screenshot form - desktop](./public/img/screenshots/desktop-form.png)
+
+<br>
+
+![Screenshot form - desktop](./public/img/screenshots/desktop-submitted%20form.png)
+
+<br>
+
+![Screenshot form - desktop](./public/img/screenshots/mobile-filtered.png)
+
+<br>
+
 ## Description
 
 This is the project for Jonas Schmedtmann's most recent (2022) course, 'Build a Full-Stack Web App in a Weekend'. The application utilizes React on the front-end and Supabase for the back-end. All data persists through the database, so the facts users submit are visible to everyone always. Instead of using CSS, I decided to use SASS for my own version. In addition, I implemented my own sort fact component, which allows users to sort facts based on the type of votes they have received.
