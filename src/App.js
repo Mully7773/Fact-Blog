@@ -81,7 +81,13 @@ const App = () => {
           {isLoading ? (
             <Loader />
           ) : (
-            <FactList facts={facts} setFacts={setFacts} filter={filter} />
+            <FactList
+              isLoading={isLoading}
+              setIsLoading={setIsLoading}
+              facts={facts}
+              setFacts={setFacts}
+              filter={filter}
+            />
           )}
         </main>
       </AppContainer>

@@ -1,7 +1,9 @@
 import supabase from "../../supabase";
+import Loader from "../Loader";
 
 const Sorter = (props) => {
   async function sortData(e) {
+    props.setIsLoading(true);
     const currentVoteType = e.target.value;
     // Prevent error from clicking on 'Choose vote type'
     if (!currentVoteType) return;
@@ -20,6 +22,8 @@ const Sorter = (props) => {
     if (!error) {
       props.setFacts(facts);
     }
+
+    props.setIsLoading(false);
   }
   return (
     <form className="sort-form">
@@ -33,6 +37,7 @@ const Sorter = (props) => {
         <option value="votesMindblowing">Mindblowing</option>
         <option value="votesFalse">Disputed</option>
       </select>
+      {props.isLoading ? <Loader /> : null}
     </form>
   );
 };

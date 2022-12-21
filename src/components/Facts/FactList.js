@@ -13,7 +13,12 @@ const FactList = (props) => {
   console.log(props);
   return (
     <section className="fact-list">
-      <Sorter setFacts={props.setFacts} filter={props.filter} />
+      <Sorter
+        isLoading={props.isLoading}
+        setIsLoading={props.setIsLoading}
+        setFacts={props.setFacts}
+        filter={props.filter}
+      />
       <ul>
         {props.facts.map((fact) => {
           return <Fact setFacts={props.setFacts} key={fact.id} fact={fact} />;
