@@ -2,9 +2,13 @@
 
 This is a full-stack fact blog application called 'Today I Learned' that allows users to post various facts and vote on them. This application helped me relearn and solidify core React concepts.
 
+\*\*NOTE: The back-end utilizes a free-tier project that may pause after a certain duration of inactivity. I will try to keep it active, but if you happen to find the application inactive and want to test it, please send me an email at mully7773@gmail.com and I will get it up and running. Thank you.
+
 ## Link
 
 Try posting a fun fact here: https://fact-blog-today-i-learned.netlify.app
+
+\*\*For best results post full source URLs that include https. For example, try "https://www.google.com".
 
 ## Screenshots
 
